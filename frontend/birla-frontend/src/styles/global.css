@@ -1,0 +1,20 @@
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:white;
+color:#333;
+}
+
+.primary{
+color:#ff5100;
+}
+
+.btn{
+background:#ff5100;
+color:white;
+padding:12px 25px;
+border:none;
+cursor:pointer;
+font-size:16px;
+border-radius:5px;
+}
