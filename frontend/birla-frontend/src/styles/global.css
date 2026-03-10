@@ -1,20 +1,72 @@
 body{
 margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:white;
+font-family: "Poppins", Arial, Helvetica, sans-serif;
+background:#ffffff;
 color:#333;
+line-height:1.6;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
+/* Brand Color */
 .primary{
-color:#ff5100;
+color:#db1f19;
 }
 
+/* Buttons */
 .btn{
-background:#ff5100;
+background:#db1f19;
 color:white;
 padding:12px 25px;
 border:none;
 cursor:pointer;
 font-size:16px;
-border-radius:5px;
+border-radius:6px;
+font-weight:500;
+transition:all 0.3s ease;
 }
+
+/* Button Hover */
+.btn:hover{
+background:#e44700;
+transform:translateY(-2px);
+}
+
+/* Links */
+a{
+text-decoration:none;
+color:#333;
+font-weight:500;
+transition:0.3s;
+}
+
+a:hover{
+color:#db1f19;
+}
+
+/* Section spacing */
+.section{
+padding:80px 10%;
+}
+
+/* Container for layout */
+.container{
+max-width:1200px;
+margin:auto;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+

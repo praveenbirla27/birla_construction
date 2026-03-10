@@ -4,6 +4,9 @@ const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
 require("dotenv").config();
+const requestRoutes = require("./routes/requestRoutes");
+
+app.use("/api/request",requestRoutes);
 
 const app = express();
 app.use(cors());
