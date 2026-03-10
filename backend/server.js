@@ -6,6 +6,7 @@ const { Server } = require("socket.io");
 require("dotenv").config();
 const requestRoutes = require("./routes/requestRoutes");
 const clientRoutes = require("./routes/clientRoutes");
+const fileRoutes = require("./routes/fileRoutes");
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use("/api/client",clientRoutes);
 app.use(cors());
 app.use(express.json());
 app.use("/uploads",express.static("uploads"));
+app.use("/api/files",fileRoutes);
 
 
 const server = http.createServer(app);
