@@ -43,7 +43,7 @@ if(files.landDocument){
 data.append("landDocument",files.landDocument[0]);
 }
 
-await axios.post("http://localhost:5000/api/request/submit",data);
+await axios.post("http://localhost:8080/api/request/submit",data);
 
 alert("Request Submitted");
 

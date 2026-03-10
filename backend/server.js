@@ -5,12 +5,16 @@ const http = require("http");
 const { Server } = require("socket.io");
 require("dotenv").config();
 const requestRoutes = require("./routes/requestRoutes");
-
-app.use("/api/request",requestRoutes);
+const clientRoutes = require("./routes/clientRoutes");
 
 const app = express();
+
+app.use("/api/request",requestRoutes);
+app.use("/api/client",clientRoutes);
 app.use(cors());
 app.use(express.json());
+app.use("/uploads",express.static("uploads"));
+
 
 const server = http.createServer(app);
 const io = new Server(server,{

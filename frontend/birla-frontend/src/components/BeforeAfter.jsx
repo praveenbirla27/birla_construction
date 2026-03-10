@@ -12,7 +12,7 @@ title:"Luxury Villa Renovation"
 before:"https://images.unsplash.com/photo-1507089947368-19c1da9775ae",
 after:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
 title:"Modern House Upgrade"
-}
+},
 ]
 
 return(

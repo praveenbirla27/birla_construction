@@ -66,3 +66,19 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.navItem{
+display:flex;
+align-items:center;
+gap:12px;
+color:white;
+text-decoration:none;
+padding:12px 15px;
+border-radius:10px;
+transition:0.3s;
+}
+
+.navItem:hover{
+background:#ff6b00;
+transform:translateX(5px);
+}

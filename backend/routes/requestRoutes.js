@@ -3,9 +3,23 @@ const router = express.Router();
 const upload = require("../middleware/upload");
 const Request = require("../models/Request");
 
-router.post(
-"/submit",
-upload.fields([
+
+router.get("/",async(req,res)=>{
+const requests = await Request.find().sort({createdAt:-1});
+res.json(requests);
+});
+
+router.post("/", async (req,res)=>{
+
+const request = new Request(req.body);
+
+await request.save();
+
+res.json({message:"Request created"});
+
+});
+
+router.post("/submit", upload.fields([
 { name:"referenceImages", maxCount:5 },
 { name:"plotMap", maxCount:1 },
 { name:"landDocument", maxCount:1 }
@@ -44,4 +58,43 @@ res.status(500).json(err);
 
 });
 
+router.put("/progress/:id", async (req, res) => {
+
+try{
+
+const request = await Request.findById(req.params.id);
+
+request.progress.foundation = req.body.foundation;
+request.progress.structure = req.body.structure;
+request.progress.plastering = req.body.plastering;
+request.progress.finishing = req.body.finishing;
+
+await request.save();
+
+res.json({message:"Progress Updated"});
+
+}
+catch(err){
+res.status(500).json(err);
+}
+
+});
+
+router.post("/upload/:id", upload.single("file"), async (req,res)=>{
+
+const request = await Request.findById(req.params.id);
+
+request.documents.push({
+
+name:req.body.name,
+file:req.file.path,
+category:req.body.category
+
+});
+
+await request.save();
+
+res.json({message:"File uploaded"});
+
+});
 module.exports = router;

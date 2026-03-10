@@ -49,6 +49,20 @@ Birla Consultant & Construction
 <Link to="/projects">Projects</Link>
 <Link to="/services">Services</Link>
 <Link to="/login">Login</Link>
+<Link to="/submit-project">
+<button
+style={{
+background:"#ff6b00",
+color:"white",
+padding:"10px 20px",
+border:"none",
+borderRadius:"6px",
+cursor:"pointer"
+}}
+>
+Submit Project
+</button>
+</Link>
 
 </div>
 
