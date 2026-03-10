@@ -59,7 +59,9 @@ return(
 <input name="floors" placeholder="Floors" onChange={handleChange}/>
 <input name="budget" placeholder="Budget" onChange={handleChange}/>
 <input name="location" placeholder="Location" onChange={handleChange}/>
+<p>Google Map Embed Link</p>
 
+<input name="mapEmbed" placeholder="Paste Google Maps embed link" onChange={handleChange}/>
 <textarea name="description" placeholder="Describe your requirements" onChange={handleChange}/>
 
 <p>Reference Images</p>

@@ -20,6 +20,8 @@ plotMap:String,
 
 landDocument:String,
 
+mapEmbed:String,
+
 status:{
 type:String,
 default:"pending"

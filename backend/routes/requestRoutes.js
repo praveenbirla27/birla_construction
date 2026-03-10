@@ -22,6 +22,7 @@ floors:req.body.floors,
 budget:req.body.budget,
 location:req.body.location,
 description:req.body.description,
+mapEmbed:req.body.mapEmbed,
 
 referenceImages:req.files.referenceImages?.map(f=>f.path),
 
