@@ -8,6 +8,7 @@ plotSize:"",
 floors:"",
 budget:"",
 location:"",
+mapEmbed:"",
 description:""
 });
 
@@ -43,9 +44,22 @@ if(files.landDocument){
 data.append("landDocument",files.landDocument[0]);
 }
 
-await axios.post("http://localhost:8080/api/request/submit",data);
+try{
+
+await axios.post(
+"http://localhost:8080/api/request/submit",
+data,
+{ headers:{ "Content-Type":"multipart/form-data" } }
+);
 
 alert("Request Submitted");
+
+}catch(err){
+
+console.log("Error:",err.response?.data || err.message);
+alert("Submission failed");
+
+}
 
 }
 
@@ -59,19 +73,12 @@ return(
 <input name="floors" placeholder="Floors" onChange={handleChange}/>
 <input name="budget" placeholder="Budget" onChange={handleChange}/>
 <input name="location" placeholder="Location" onChange={handleChange}/>
-<p>Google Map Embed Link</p>
 
-<input name="mapEmbed" placeholder="Paste Google Maps embed link" onChange={handleChange}/>
 <textarea name="description" placeholder="Describe your requirements" onChange={handleChange}/>
 
 <p>Reference Images</p>
 <input type="file" name="referenceImages" multiple onChange={handleFile}/>
 
-<p>Plot Map</p>
-<input type="file" name="plotMap" onChange={handleFile}/>
-
-<p>Land Document (optional)</p>
-<input type="file" name="landDocument" onChange={handleFile}/>
 
 <button className="btn" onClick={submit}>
 Submit

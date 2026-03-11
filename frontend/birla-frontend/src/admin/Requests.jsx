@@ -7,13 +7,13 @@ export default function Requests(){
 const [requests,setRequests] = useState([]);
 
 useEffect(()=>{
-axios.get("http://localhost:5000/api/request")
+axios.get("http://localhost:8080/api/request")
 .then(res=>setRequests(res.data));
 },[]);
 
 const updateProgress = async(id,progress)=>{
 
-await axios.put(`http://localhost:5000/api/request/progress/${id}`,progress);
+await axios.put(`http://localhost:8080/api/request/progress/${id}`,progress);
 
 alert("Progress Updated");
 
@@ -98,19 +98,6 @@ Finishing
 </div>
 
 ))}
-
-<button
-style={{
-background:"#ff6b00",
-color:"white",
-border:"none",
-padding:"8px 16px",
-borderRadius:"6px",
-cursor:"pointer"
-}}
->
-Upload Project Files
-</button>
 
 </AdminLayout>
 

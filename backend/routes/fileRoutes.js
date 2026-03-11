@@ -4,24 +4,46 @@ const router = express.Router();
 const upload = require("../middleware/upload");
 const File = require("../models/File");
 
-router.post("/upload",upload.single("file"),async(req,res)=>{
+/* Upload project file */
+router.post("/upload", upload.single("file"), async (req, res) => {
 
-const {projectId,category} = req.body;
+try{
+
+const { requestId, category } = req.body;
 
 const newFile = new File({
-
-projectId,
+requestId,
 category,
-fileUrl:req.file.filename
-
+fileUrl: req.file.filename
 });
 
 await newFile.save();
 
 res.json({
-message:"File uploaded",
-file:newFile
+message: "File uploaded",
+file: newFile
 });
+
+}catch(err){
+console.log(err);
+res.status(500).json(err);
+}
+
+});
+
+
+/* Get all files for a specific project */
+router.get("/:requestId", async (req,res)=>{
+
+try{
+
+const files = await File.find({ requestId: req.params.requestId });
+
+res.json(files);
+
+}catch(err){
+res.status(500).json(err);
+}
 
 });
 

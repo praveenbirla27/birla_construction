@@ -9,18 +9,12 @@ ref:"User"
 
 plotSize:String,
 floors:Number,
-budget:Number,
+budget:String,
 location:String,
 
 description:String,
 
 referenceImages:[String],
-
-plotMap:String,
-
-landDocument:String,
-
-mapEmbed:String,
 
 status:{
 type:String,

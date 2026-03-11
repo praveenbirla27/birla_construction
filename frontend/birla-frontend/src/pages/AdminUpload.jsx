@@ -10,9 +10,10 @@ const uploadFile = async()=>{
 
 const formData = new FormData();
 
-formData.append("file",file);
-formData.append("category",category);
-formData.append("projectId","123");
+data.append("requestId",id);
+data.append("title",title);
+data.append("fileType",fileType);
+data.append("file",file);
 
 await axios.post(
 "http://localhost:8080/api/files/upload",
@@ -25,28 +26,34 @@ alert("File uploaded");
 
 return(
 
-<div>
+<div style={{padding:"40px"}}>
 
 <h2>Upload Project File</h2>
 
-<select onChange={(e)=>setCategory(e.target.value)}>
+<input
+placeholder="Title (ex: Floor Plan)"
+onChange={(e)=>setTitle(e.target.value)}
+/>
 
-<option value="plan">House Plan</option>
-<option value="design">3D Design</option>
-<option value="photo">Construction Photo</option>
-<option value="bill">Bill</option>
-<option value="contract">Contract</option>
+<br/><br/>
+
+<select onChange={(e)=>setFileType(e.target.value)}>
+
+<option>floor-plan</option>
+<option>3d-design</option>
+<option>contract</option>
+<option>cost-sheet</option>
+<option>construction-photo</option>
 
 </select>
 
-<input
-type="file"
-onChange={(e)=>setFile(e.target.files[0])}
-/>
+<br/><br/>
 
-<button onClick={uploadFile}>
-Upload
-</button>
+<input type="file" onChange={(e)=>setFile(e.target.files[0])}/>
+
+<br/><br/>
+
+<button onClick={upload}>Upload</button>
 
 </div>
 

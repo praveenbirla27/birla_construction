@@ -2,29 +2,20 @@ const mongoose = require("mongoose");
 
 const fileSchema = new mongoose.Schema({
 
-projectId:{
- type:mongoose.Schema.Types.ObjectId,
- ref:"Request"
+requestId:{
+type:mongoose.Schema.Types.ObjectId,
+ref:"Request"
 },
 
-category:{
- type:String,
- enum:[
- "plan",
- "design",
- "photo",
- "bill",
- "contract"
- ]
-},
+category:String,
 
 fileUrl:String,
 
-uploadedAt:{
- type:Date,
- default:Date.now
+createdAt:{
+type:Date,
+default:Date.now
 }
 
 });
 
-module.exports = mongoose.model("File",fileSchema);
+module.exports = mongoose.model("File", fileSchema);

@@ -4,13 +4,34 @@ import axios from "axios";
 export default function ClientDashboard(){
 
 const [projects,setProjects] = useState([]);
+const [files,setFiles] = useState({});
 
 const userId = localStorage.getItem("userId");
 
 useEffect(()=>{
 
 axios.get(`http://localhost:8080/api/client/myprojects/${userId}`)
-.then(res=>setProjects(res.data));
+.then(async res=>{
+
+setProjects(res.data);
+
+/* fetch files for each project */
+
+const filesData = {};
+
+for(const project of res.data){
+
+const response = await axios.get(
+`http://localhost:8080/api/files/${project._id}`
+);
+
+filesData[project._id] = response.data;
+
+}
+
+setFiles(filesData);
+
+});
 
 },[]);
 
@@ -29,7 +50,8 @@ padding:"30px",
 borderRadius:"15px",
 marginTop:"20px",
 boxShadow:"0 10px 30px rgba(0,0,0,0.05)"
-}}>
+}}
+>
 
 <h3>{project.location}</h3>
 <p>Budget: ₹{project.budget}</p>
@@ -38,13 +60,10 @@ boxShadow:"0 10px 30px rgba(0,0,0,0.05)"
 
 <ul>
 
-<li>Foundation: {project.progress.foundation ? "✔ Completed":"⏳ Pending"}</li>
-
-<li>Structure: {project.progress.structure ? "✔ Completed":"⏳ Pending"}</li>
-
-<li>Plastering: {project.progress.plastering ? "✔ Completed":"⏳ Pending"}</li>
-
-<li>Finishing: {project.progress.finishing ? "✔ Completed":"⏳ Pending"}</li>
+<li>Foundation: {project.progress?.foundation ? "✔ Completed":"⏳ Pending"}</li>
+<li>Structure: {project.progress?.structure ? "✔ Completed":"⏳ Pending"}</li>
+<li>Plastering: {project.progress?.plastering ? "✔ Completed":"⏳ Pending"}</li>
+<li>Finishing: {project.progress?.finishing ? "✔ Completed":"⏳ Pending"}</li>
 
 </ul>
 
@@ -61,9 +80,10 @@ style={{border:0}}
 
 <h3>Project Documents</h3>
 
-{project.documents?.map(doc=>(
+{files[project._id]?.map(file=>(
+
 <div
-key={doc.file}
+key={file._id}
 style={{
 background:"#fff",
 padding:"15px",
@@ -74,16 +94,17 @@ justifyContent:"space-between"
 }}
 >
 
-<span>{doc.name}</span>
+<span>{file.category}</span>
 
 <a
-href={`http://localhost:8080/${doc.file}`}
+href={`http://localhost:8080/uploads/${file.fileUrl}`}
 target="_blank"
 >
-Download
+View
 </a>
 
 </div>
+
 ))}
 
 </div>
