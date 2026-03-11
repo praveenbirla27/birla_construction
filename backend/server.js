@@ -8,6 +8,7 @@ const { Server } = require("socket.io");
 const requestRoutes = require("./routes/requestRoutes");
 const clientRoutes = require("./routes/clientRoutes");
 const fileRoutes = require("./routes/fileRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use("/uploads",express.static("uploads"));
 app.use("/api/request",requestRoutes);
 app.use("/api/client",clientRoutes);
 app.use("/api/files",fileRoutes);
+app.use("/api/auth",authRoutes);
 
 const server = http.createServer(app);
 

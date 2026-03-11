@@ -3,9 +3,11 @@ const router = express.Router();
 
 const upload = require("../middleware/upload");
 const File = require("../models/File");
+const auth = require("../middleware/authMiddleware");
+const {adminOnly} = require("../middleware/roleMiddleware");
 
 /* Upload project file */
-router.post("/upload", upload.single("file"), async (req, res) => {
+router.post("/upload",auth,adminOnly,upload.single("file"), async (req, res) => {
 
 try{
 

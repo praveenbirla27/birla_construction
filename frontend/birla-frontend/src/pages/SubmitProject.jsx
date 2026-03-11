@@ -48,6 +48,8 @@ Object.keys(form).forEach(k=>{
 data.append(k,form[k]);
 });
 
+data.append("user", localStorage.getItem("userId"));
+
 if(files.referenceImages){
 for(let i=0;i<files.referenceImages.length;i++){
 data.append("referenceImages",files.referenceImages[i]);

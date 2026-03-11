@@ -1,12 +1,21 @@
 import { useEffect,useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function ClientDashboard(){
 
 const [projects,setProjects] = useState([]);
 const [files,setFiles] = useState({});
-
 const userId = localStorage.getItem("userId");
+const navigate = useNavigate();
+
+useEffect(()=>{
+
+if(localStorage.getItem("role") !== "client"){
+navigate("/");
+}
+
+},[]);
 
 useEffect(()=>{
 

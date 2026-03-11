@@ -2,8 +2,10 @@ import AdminLayout from "./AdminLayout";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+
 
 const [stats,setStats] = useState({
 clients:0,
@@ -11,6 +13,14 @@ projects:0,
 pending:0,
 revenue:0
 });
+
+const navigate = useNavigate();
+
+useEffect(()=>{
+if(localStorage.getItem("role") !== "admin"){
+navigate("/");
+}
+},[]);
 
 useEffect(()=>{
 

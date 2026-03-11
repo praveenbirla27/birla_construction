@@ -1,4 +1,6 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Register(){
 
@@ -6,6 +8,36 @@ const [name,setName]=useState("");
 const [email,setEmail]=useState("");
 const [phone,setPhone]=useState("");
 const [password,setPassword]=useState("");
+const [role,setRole]=useState("client");
+
+const navigate = useNavigate();
+
+async function handleRegister(){
+
+try{
+
+await axios.post(
+"http://localhost:8080/api/auth/register",
+{
+name,
+email,
+phone,
+password,
+role
+}
+);
+
+alert("Registration successful");
+
+navigate("/login");
+
+}catch(err){
+
+alert("Registration failed");
+
+}
+
+}
 
 return(
 
@@ -61,7 +93,11 @@ onChange={(e)=>setPassword(e.target.value)}
 style={{width:"100%",padding:"12px",marginTop:"15px",borderRadius:"5px"}}
 />
 
-<button className="btn" style={{width:"100%",marginTop:"20px"}}>
+<button
+className="btn"
+style={{width:"100%",marginTop:"20px"}}
+onClick={handleRegister}
+>
 Register
 </button>
 

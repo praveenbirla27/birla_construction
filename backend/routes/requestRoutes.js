@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../middleware/upload");
 const Request = require("../models/Request");
+const auth = require("../middleware/authMiddleware");
+const {clientOnly} = require("../middleware/roleMiddleware");
 
 
 router.get("/",async(req,res)=>{
@@ -11,7 +13,10 @@ res.json(requests);
 
 router.post("/", async (req,res)=>{
 
-const request = new Request(req.body);
+const request = new Request({
+...req.body,
+user:req.body.user
+});
 
 await request.save();
 
@@ -19,7 +24,7 @@ res.json({message:"Request created"});
 
 });
 
-router.post("/submit", upload.fields([
+router.post("/submit",auth,clientOnly,upload.fields([
 { name:"referenceImages", maxCount:5 },
 { name:"plotMap", maxCount:1 },
 { name:"landDocument", maxCount:1 }

@@ -1,9 +1,43 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Login(){
 
 const [email,setEmail]=useState("");
 const [password,setPassword]=useState("");
+
+const navigate = useNavigate();
+
+async function handleLogin(){
+
+try{
+
+const res = await axios.post(
+"http://localhost:8080/api/auth/login",
+{email,password}
+);
+
+/* SAVE LOGIN DATA */
+localStorage.setItem("token",res.data.token);
+localStorage.setItem("userId",res.data.user._id);
+localStorage.setItem("role",res.data.user.role);
+
+/* REDIRECT BASED ON ROLE */
+
+if(res.data.user.role === "admin"){
+navigate("/admin");
+}else{
+navigate("/client/dashboard");
+}
+
+}catch(err){
+
+alert("Login failed");
+
+}
+
+}
 
 return(
 
@@ -55,7 +89,11 @@ borderRadius:"5px"
 }}
 />
 
-<button className="btn" style={{width:"100%",marginTop:"20px"}}>
+<button
+className="btn"
+style={{width:"100%",marginTop:"20px"}}
+onClick={handleLogin}
+>
 Login
 </button>
 
