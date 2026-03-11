@@ -38,11 +38,11 @@ location:req.body.location,
 description:req.body.description,
 mapEmbed:req.body.mapEmbed,
 
-referenceImages:req.files.referenceImages?.map(f=>f.path),
+referenceImages:req.files.referenceImages?.map(f=>f.filename),
 
-plotMap:req.files.plotMap?.[0]?.path,
+plotMap:req.files.plotMap?.[0]?.f.filename,
 
-landDocument:req.files.landDocument?.[0]?.path
+landDocument:req.files.landDocument?.[0]?.f.filename
 
 });
 
@@ -80,21 +80,4 @@ res.status(500).json(err);
 
 });
 
-router.post("/upload/:id", upload.single("file"), async (req,res)=>{
-
-const request = await Request.findById(req.params.id);
-
-request.documents.push({
-
-name:req.body.name,
-file:req.file.path,
-category:req.body.category
-
-});
-
-await request.save();
-
-res.json({message:"File uploaded"});
-
-});
 module.exports = router;

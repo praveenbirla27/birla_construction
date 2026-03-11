@@ -31,13 +31,6 @@ structure:{type:Boolean,default:false},
 plastering:{type:Boolean,default:false},
 finishing:{type:Boolean,default:false}
 },
-documents:[
-{
-name:String,
-file:String,
-category:String
-}
-]
 
 });
 

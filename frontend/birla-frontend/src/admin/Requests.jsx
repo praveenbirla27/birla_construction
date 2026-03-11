@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminLayout from "./AdminLayout";
+import { useNavigate } from "react-router-dom";
 
 export default function Requests(){
 
 const [requests,setRequests] = useState([]);
+const navigate = useNavigate();
 
 useEffect(()=>{
 axios.get("http://localhost:8080/api/request")
@@ -44,7 +46,7 @@ boxShadow:"0 10px 25px rgba(0,0,0,0.05)"
 <label>
 <input
 type="checkbox"
-defaultChecked={r.progress.foundation}
+defaultChecked={r.progress?.foundation}
 onChange={(e)=>updateProgress(r._id,{
 ...r.progress,
 foundation:e.target.checked
@@ -58,7 +60,7 @@ Foundation
 <label>
 <input
 type="checkbox"
-defaultChecked={r.progress.structure}
+defaultChecked={r.progress?.structure}
 onChange={(e)=>updateProgress(r._id,{
 ...r.progress,
 structure:e.target.checked
@@ -72,7 +74,7 @@ Structure
 <label>
 <input
 type="checkbox"
-defaultChecked={r.progress.plastering}
+defaultChecked={r.progress?.plastering}
 onChange={(e)=>updateProgress(r._id,{
 ...r.progress,
 plastering:e.target.checked
@@ -86,7 +88,7 @@ Plastering
 <label>
 <input
 type="checkbox"
-defaultChecked={r.progress.finishing}
+defaultChecked={r.progress?.finishing}
 onChange={(e)=>updateProgress(r._id,{
 ...r.progress,
 finishing:e.target.checked
@@ -94,6 +96,22 @@ finishing:e.target.checked
 />
 Finishing
 </label>
+
+<br/><br/>
+
+<button
+onClick={()=>navigate(`/admin/upload/${r._id}`)}
+style={{
+background:"#ff6b00",
+color:"white",
+border:"none",
+padding:"10px 18px",
+borderRadius:"8px",
+cursor:"pointer"
+}}
+>
+Upload Project Files
+</button>
 
 </div>
 

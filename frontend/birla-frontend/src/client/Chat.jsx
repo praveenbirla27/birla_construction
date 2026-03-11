@@ -11,10 +11,12 @@ const [messages,setMessages] = useState([]);
 useEffect(()=>{
 
 socket.on("receiveMessage",(data)=>{
-
 setMessages(prev=>[...prev,data]);
-
 });
+
+return ()=>{
+socket.off("receiveMessage");
+}
 
 },[]);
 

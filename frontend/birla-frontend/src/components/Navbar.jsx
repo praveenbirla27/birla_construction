@@ -25,7 +25,7 @@ gap:"10px"
 }}>
 
 <img 
-class="logoimg"
+className="logoimg"
 src={logo}
 alt="Birla Construction"
 style={{

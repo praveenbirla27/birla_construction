@@ -1,19 +1,21 @@
 import axios from "axios";
-import {useState} from "react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 export default function AdminUpload(){
 
+const { requestId } = useParams();
+
 const [file,setFile] = useState(null);
-const [category,setCategory] = useState("plan");
+const [category,setCategory] = useState("floor-plan");
 
 const uploadFile = async()=>{
 
 const formData = new FormData();
 
-data.append("requestId",id);
-data.append("title",title);
-data.append("fileType",fileType);
-data.append("file",file);
+formData.append("requestId",requestId);
+formData.append("category",category);
+formData.append("file",file);
 
 await axios.post(
 "http://localhost:8080/api/files/upload",
@@ -30,30 +32,28 @@ return(
 
 <h2>Upload Project File</h2>
 
-<input
-placeholder="Title (ex: Floor Plan)"
-onChange={(e)=>setTitle(e.target.value)}
-/>
+<select onChange={(e)=>setCategory(e.target.value)}>
 
-<br/><br/>
-
-<select onChange={(e)=>setFileType(e.target.value)}>
-
-<option>floor-plan</option>
-<option>3d-design</option>
-<option>contract</option>
-<option>cost-sheet</option>
-<option>construction-photo</option>
+<option value="floor-plan">Floor Plan</option>
+<option value="3d-design">3D Design</option>
+<option value="contract">Contract</option>
+<option value="cost-sheet">Cost Sheet</option>
+<option value="construction-photo">Construction Photo</option>
 
 </select>
 
 <br/><br/>
 
-<input type="file" onChange={(e)=>setFile(e.target.files[0])}/>
+<input
+type="file"
+onChange={(e)=>setFile(e.target.files[0])}
+/>
 
 <br/><br/>
 
-<button onClick={upload}>Upload</button>
+<button onClick={uploadFile}>
+Upload
+</button>
 
 </div>
 

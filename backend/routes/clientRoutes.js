@@ -4,7 +4,7 @@ const Request = require("../models/Request");
 
 router.get("/myprojects/:userId", async (req,res)=>{
 
-const projects = await Request.find({user:req.params.userId});
+const projects = await Request.find();
 
 res.json(projects);
 
