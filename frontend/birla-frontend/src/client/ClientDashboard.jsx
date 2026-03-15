@@ -1,107 +1,235 @@
-import { useEffect,useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useEffect,useState } from "react"
+import axios from "axios"
+import { useNavigate,Link } from "react-router-dom"
+import DashboardHeader from "../components/DashboardHeader"
+import StatsCards from "../components/StatsCards"
+import EmptyState from "../components/EmptyState"
 
 export default function ClientDashboard(){
 
-const [projects,setProjects] = useState([]);
-const [files,setFiles] = useState({});
-const userId = localStorage.getItem("userId");
-const navigate = useNavigate();
+const [projects,setProjects] = useState([])
+const [files,setFiles] = useState({})
+const navigate = useNavigate()
+
+const userId = localStorage.getItem("userId")
 
 useEffect(()=>{
 
 if(localStorage.getItem("role") !== "client"){
-navigate("/");
+navigate("/")
 }
 
-},[]);
+loadProjects()
 
-useEffect(()=>{
+},[])
 
-axios.get(`http://localhost:8080/api/client/myprojects/${userId}`)
-.then(async res=>{
 
-setProjects(res.data);
+async function loadProjects(){
 
-/* fetch files for each project */
+try{
 
-const filesData = {};
+const res = await axios.get(
+`http://localhost:8080/api/client/myprojects/${userId}`
+)
+
+setProjects(res.data)
+
+const fileData = {}
 
 for(const project of res.data){
 
-const response = await axios.get(
+const f = await axios.get(
 `http://localhost:8080/api/files/${project._id}`
-);
+)
 
-filesData[project._id] = response.data;
+fileData[project._id] = f.data
 
 }
 
-setFiles(filesData);
+setFiles(fileData)
 
-});
+}catch(err){
+console.log(err)
+}
 
-},[]);
+}
+
 
 return(
 
-<div style={{padding:"40px"}}>
+<div style={{display:"flex"}}>
 
-<h1>My Project</h1>
+{/* SIDEBAR */}
+
+<div style={{
+width:"220px",
+height:"100vh",
+background:"#111827",
+color:"white",
+padding:"30px"
+}}>
+
+<h2 style={{marginBottom:"40px"}}>Client Panel</h2>
+
+<div style={{display:"flex",flexDirection:"column",gap:"20px"}}>
+
+<Link to="/client/dashboard" style={{color:"white"}}>Dashboard</Link>
+<Link to="/submit-project" style={{color:"white"}}>Submit Project</Link>
+<Link to="/projects" style={{color:"white"}}>My Projects</Link>
+
+<button
+style={{
+marginTop:"40px",
+padding:"10px",
+background:"#ef4444",
+border:"none",
+color:"white",
+borderRadius:"6px"
+}}
+onClick={()=>{
+localStorage.clear()
+navigate("/")
+}}
+>
+Logout
+</button>
+
+</div>
+
+</div>
+
+
+
+{/* MAIN AREA */}
+
+<div style={{
+flex:1,
+padding:"40px",
+background:"#f9fafb",
+minHeight:"100vh"
+}}>
+
+<h1>Welcome 👋</h1>
+<p style={{color:"#666",marginBottom:"30px"}}>
+Track your construction progress
+</p>
+
+
+{/* STATS */}
+
+<div style={{
+display:"grid",
+gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",
+gap:"20px",
+marginBottom:"40px"
+}}>
+
+<div className="clientcard">
+<h3>Total Projects</h3>
+<h1>{projects.length}</h1>
+</div>
+
+<div className="clientcard">
+<h3>Completed</h3>
+<h1>
+{projects.filter(p=>p.progress?.finishing).length}
+</h1>
+</div>
+
+<div className="clientcard">
+<h3>In Progress</h3>
+<h1>
+{projects.filter(p=>!p.progress?.finishing).length}
+</h1>
+</div>
+
+</div>
+
+
+
+{/* EMPTY STATE */}
+
+{projects.length === 0 && (
+
+<div className="empty">
+
+<h3>No Projects Yet</h3>
+
+<p>Submit your first project to start construction</p>
+
+<Link to="/submit-project">
+
+<button className="clientbtn">
+Submit Project
+</button>
+
+</Link>
+
+</div>
+
+)}
+
+
+
+{/* PROJECT CARDS */}
 
 {projects.map(project=>(
 
-<div key={project._id}
-style={{
-background:"white",
-padding:"30px",
-borderRadius:"15px",
-marginTop:"20px",
-boxShadow:"0 10px 30px rgba(0,0,0,0.05)"
-}}
->
+<div key={project._id} className="projectCard">
 
-<h3>{project.location}</h3>
+<h2>{project.location}</h2>
+
 <p>Budget: ₹{project.budget}</p>
 
-<h4>Progress</h4>
 
-<ul>
+{/* Timeline */}
 
-<li>Foundation: {project.progress?.foundation ? "✔ Completed":"⏳ Pending"}</li>
-<li>Structure: {project.progress?.structure ? "✔ Completed":"⏳ Pending"}</li>
-<li>Plastering: {project.progress?.plastering ? "✔ Completed":"⏳ Pending"}</li>
-<li>Finishing: {project.progress?.finishing ? "✔ Completed":"⏳ Pending"}</li>
+<h4>Construction Timeline</h4>
 
-</ul>
+<div className="timeline">
+
+<div className={project.progress?.foundation ? "done":"step"}>
+Foundation
+</div>
+
+<div className={project.progress?.structure ? "done":"step"}>
+Structure
+</div>
+
+<div className={project.progress?.plastering ? "done":"step"}>
+Plastering
+</div>
+
+<div className={project.progress?.finishing ? "done":"step"}>
+Finishing
+</div>
+
+</div>
+
+
+
+{/* MAP */}
 
 {project.mapEmbed && (
 
 <iframe
 src={project.mapEmbed}
 width="100%"
-height="300"
-style={{border:0}}
+height="250"
+style={{border:0,marginTop:"20px"}}
 />
 
 )}
 
-<h3>Project Documents</h3>
+
+
+{/* FILES */}
+
+<h3 style={{marginTop:"20px"}}>Documents</h3>
 
 {files[project._id]?.map(file=>(
 
-<div
-key={file._id}
-style={{
-background:"#fff",
-padding:"15px",
-marginTop:"10px",
-borderRadius:"10px",
-display:"flex",
-justifyContent:"space-between"
-}}
->
+<div key={file._id} className="file">
 
 <span>{file.category}</span>
 
@@ -112,6 +240,16 @@ target="_blank"
 View
 </a>
 
+<div style={{padding:"40px"}}>
+
+<DashboardHeader />
+
+<StatsCards projects={projects} />
+
+{projects.length === 0 && <EmptyState />}
+
+</div>
+
 </div>
 
 ))}
@@ -119,6 +257,8 @@ View
 </div>
 
 ))}
+
+</div>
 
 </div>
 

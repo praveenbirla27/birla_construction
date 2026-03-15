@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Login(){
 
@@ -38,6 +40,14 @@ alert("Login failed");
 }
 
 }
+
+useEffect(()=>{
+
+if(localStorage.getItem("token")){
+window.location="/client/dashboard";
+}
+
+},[]);
 
 return(
 
@@ -98,7 +108,7 @@ Login
 </button>
 
 <p style={{marginTop:"15px",textAlign:"center"}}>
-Don't have account? Register
+Don't have account? <Link to="/register">Register</Link>
 </p>
 
 </div>

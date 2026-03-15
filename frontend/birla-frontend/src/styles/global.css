@@ -92,3 +92,65 @@ box-shadow:0 10px 22px rgba(0,0,0,0.2);
 transform:translateY(1px) scale(0.97);
 box-shadow:0 4px 10px rgba(0,0,0,0.15);
 }
+
+/* ClientDashboard */
+.clientcard{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.05);
+text-align:center;
+}
+
+.projectCard{
+background:white;
+padding:25px;
+border-radius:15px;
+margin-bottom:25px;
+box-shadow:0 10px 30px rgba(0,0,0,0.05);
+}
+
+.timeline{
+display:flex;
+gap:15px;
+margin-top:10px;
+}
+
+.step{
+padding:8px 15px;
+background:#eee;
+border-radius:20px;
+font-size:14px;
+}
+
+.done{
+padding:8px 15px;
+background:#10b981;
+color:white;
+border-radius:20px;
+}
+
+.file{
+display:flex;
+justify-content:space-between;
+padding:10px;
+background:#f3f4f6;
+margin-top:10px;
+border-radius:8px;
+}
+
+.empty{
+background:white;
+padding:40px;
+text-align:center;
+border-radius:15px;
+}
+
+.clientbtn{
+padding:10px 20px;
+background:#ff6b00;
+border:none;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}

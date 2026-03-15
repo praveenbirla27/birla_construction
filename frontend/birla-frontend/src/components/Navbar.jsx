@@ -1,7 +1,24 @@
-import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";  
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 export default function Navbar(){
+
+const navigate = useNavigate();
+
+const token = localStorage.getItem("token");
+const role = localStorage.getItem("role");
+
+function logout(){
+
+localStorage.removeItem("token");
+localStorage.removeItem("role");
+localStorage.removeItem("userId");
+
+navigate("/");
+window.location.reload();
+
+}
+
 return(
 
 <div style={{
@@ -24,7 +41,7 @@ alignItems:"center",
 gap:"10px"
 }}>
 
-<img 
+<img
 className="logoimg"
 src={logo}
 alt="Birla Construction"
@@ -43,16 +60,51 @@ Birla Consultant & Construction
 
 
 {/* Navigation */}
-<div style={{display:"flex",gap:"25px"}}>
+<div style={{display:"flex",gap:"25px",alignItems:"center",marginRight:"50px"}}>
 
 <Link to="/">Home</Link>
+
+{token && role === "client" && (
 <Link to="/submit-project">Submit Project</Link>
-<Link to="/projects"> My Projects</Link>
+)}
+
+{token && role === "client" && (
+<Link to="/client/dashboard">My Projects</Link>
+)}
+
+{token && role === "admin" && (
+<Link to="/admin">Admin Dashboard</Link>
+)}
+
+{/* If NOT logged in */}
+{!token && (
+<>
 <Link to="/login">Login</Link>
+<Link to="/register">Register</Link>
+</>
+)}
+
+{/* If logged in */}
+{token && (
+<button
+onClick={logout}
+style={{
+border:"none",
+background:"#ff6b00",
+color:"white",
+padding:"8px 16px",
+borderRadius:"6px",
+cursor:"pointer"
+}}
+>
+Logout
+</button>
+)}
 
 </div>
 
 </div>
 
 )
+
 }
