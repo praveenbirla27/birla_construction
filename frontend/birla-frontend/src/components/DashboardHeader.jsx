@@ -1,3 +1,4 @@
+import NotificationBell from "./NotificationBell"
 export default function DashboardHeader(){
 
   return(
